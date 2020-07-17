@@ -1,0 +1,29 @@
+
+https://codeopolis.com/posts/running-bitwarden-on-a-raspberry-pi-with-docker/
+docker run -d \
+-p 8005:80 \
+-e ADMIN_TOKEN=<> \
+-v bitwarden:/config \
+--name bitwarden \
+--restart always \
+bitwardenrs/server:raspberry
+
+https://github.com/pi-hole/docker-pi-hole/
+docker run -d \
+    --name pihole \
+    -p 53:53/tcp -p 53:53/udp \
+    -p 80:80 \
+    -p 443:443 \
+    -e TZ="Europe/Moscow" \
+    -v "$(pwd)/etc-pihole/:/etc/pihole/" \
+    -v "$(pwd)/etc-dnsmasq.d/:/etc/dnsmasq.d/" \
+    --dns=127.0.0.1 --dns=8.8.8.8 \
+    --restart=unless-stopped \
+    --hostname pi.hole \
+    -e VIRTUAL_HOST="pi.hole" \
+    -e PROXY_LOCATION="pi.hole" \
+    -e ServerIP="<>" \
+    pihole/pihole:latest
+
+https://hub.docker.com/r/jaymoulin/plex/
+docker run -d --restart=always --name plex -v /mnt/nas-shared --net=host jaymoulin/plex
